@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { User } from '../../types';
+import { getUsers } from './actions';
 
 type UsersInitialState = {
   users: User[] | [];
@@ -14,8 +15,17 @@ const initialState: UsersInitialState = {
 export const usersSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    // resetErrorMessage: state => {},
+  reducers: {},
+  extraReducers: builder => {
+    builder
+      .addCase(getUsers.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(getUsers.fulfilled, (state, action) => {
+        state.isLoading = false;
+        console.log(action.payload);
+        state.users = action.payload;
+      });
   },
 });
 

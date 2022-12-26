@@ -1,5 +1,5 @@
 import { RootState } from '../store';
 
-export const selectUid = (state: RootState) => {
-  return state.user.userId;
+export const selectUsers = (state: RootState) => {
+  return state.users.users;
 };
