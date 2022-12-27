@@ -1,32 +1,22 @@
 import React, { useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
 import { StyleSheet, View, Text } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
-import { FormValues } from '../addTodoModal/addTodoModal';
+import DropDownPicker, { ValueType } from 'react-native-dropdown-picker';
+import { priorityValues, statusValues } from '../../utils';
+import { FormValues } from '../todoModal/todoModal';
 
 interface CustomPickerProps {
   name: 'status' | 'priority';
   control: Control<FormValues>;
-  // selectItems: SelectValue[];
   placeholder: string;
+  defaultValue: string | undefined;
 }
-
-const statusValues = [
-  { label: 'Open', value: 'open' },
-  { label: 'In progress', value: 'inProgress' },
-  { label: 'Close', value: 'close' },
-];
-
-const priorityValues = [
-  { label: 'Low Priority', value: '1' },
-  { label: 'Medium Priority', value: '2' },
-  { label: 'High Priority', value: '3' },
-];
 
 export default function CustomPicker({
   name,
   control,
   placeholder,
+  defaultValue,
 }: CustomPickerProps) {
   const [open, setOpen] = useState(false);
 
@@ -35,10 +25,10 @@ export default function CustomPicker({
       <Text style={styles.placeholder}>{placeholder}</Text>
       <Controller
         control={control}
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { onChange, value = defaultValue } }) => (
           <DropDownPicker
             open={open}
-            value={value}
+            value={value as ValueType}
             items={name === 'status' ? statusValues : priorityValues}
             setOpen={setOpen}
             setValue={item => console.log(item)}
@@ -65,6 +55,7 @@ const styles = StyleSheet.create({
   },
   placeholder: {
     alignSelf: 'center',
+    marginBottom: 5,
     fontSize: 12,
     color: '#8f8f8f',
   },

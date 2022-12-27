@@ -6,12 +6,14 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import { AddTodoModal } from '../../components';
+import { TodoModal } from '../../components';
 import TodoRow from '../../components/todoRow/todoRow';
 import { useAppSelector } from '../../hooks';
 import { selectTodos } from '../../store/todos/selectors';
 
 export default function TodosScreen() {
+  // const modalState = useAppSelector(selectModalState);
+
   const [modalIsShow, setModalIsShow] = useState(false);
   const todos = useAppSelector(selectTodos);
 
@@ -29,7 +31,7 @@ export default function TodosScreen() {
           ))}
         </ScrollView>
       </SafeAreaView>
-      <AddTodoModal modalIsShow={modalIsShow} setModalIsShow={setModalIsShow} />
+      <TodoModal modalIsShow={modalIsShow} setModalIsShow={setModalIsShow} />
     </>
   );
 }

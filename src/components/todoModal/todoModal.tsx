@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import CustomInput from '../customInput/customInput';
 import CustomPicker from '../customPicker/customPicker';
-import { useAppDispatch } from '../../hooks/';
-import { addTodo } from '../../store';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { addTodo, setModalState, updateTodo } from '../../store';
+import { selectModalState } from '../../store';
 // import CustomPicker from '../customPicker/customPicker';
 
-interface AddTodoModalProps {
+interface TodoModalProps {
   modalIsShow: boolean;
   setModalIsShow: (arg: boolean) => void;
 }
@@ -19,26 +20,50 @@ export type FormValues = {
   priority: string;
 };
 
-export default function AddTodoModal({
+export default function TodoModal({
   modalIsShow,
   setModalIsShow,
-}: AddTodoModalProps) {
-  const { control, handleSubmit, reset } = useForm<FormValues>();
+}: TodoModalProps) {
+  const modalState = useAppSelector(selectModalState);
+  const { control, handleSubmit, reset, formState, setValue } =
+    useForm<FormValues>();
+
+  useEffect(() => {
+    if (modalState) {
+      setValue('title', modalState.title);
+      setValue('description', modalState.description);
+      setValue('status', modalState.status);
+      setValue('priority', modalState.priority);
+    }
+  }, [modalState, setValue]);
+
   const dispatch = useAppDispatch();
+  console.log(formState.errors);
 
   const onSubmit: SubmitHandler<FormValues> = data => {
-    console.log(data);
-    const newData = { ...data, id: Date.now() };
-    dispatch(addTodo(newData));
+    console.log('data', data);
+    if (!modalState) {
+      const newData = { ...data, id: Date.now() };
+      dispatch(addTodo(newData));
+    } else {
+      dispatch(updateTodo({ ...data, id: modalState.id }));
+      dispatch(setModalState(null));
+    }
     reset();
     setModalIsShow(false);
+  };
+
+  const cancelHandler = () => {
+    reset();
+    setModalIsShow(false);
+    dispatch(setModalState(null));
   };
 
   return (
     <Modal
       animationType="fade"
       transparent={true}
-      visible={modalIsShow}
+      visible={modalIsShow || !!modalState}
       statusBarTranslucent={true}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
@@ -46,36 +71,43 @@ export default function AddTodoModal({
             control={control}
             name={'title'}
             placeholder="Enter the title of todo"
+            defaultValue={modalState?.title}
           />
           <CustomInput
             control={control}
             name={'description'}
             placeholder="Enter the description"
+            defaultValue={modalState?.description}
           />
           <View style={styles.pickerBox}>
             <CustomPicker
               control={control}
               name="status"
               placeholder="Todo's status"
+              defaultValue={modalState?.status}
             />
             <CustomPicker
               control={control}
               name="priority"
               placeholder="Priority"
+              defaultValue={modalState?.priority}
             />
           </View>
           <View style={styles.buttonGroup}>
             <TouchableOpacity
               style={styles.deleteButton}
-              onPress={() => setModalIsShow(false)}>
+              onPress={cancelHandler}>
               <Text style={styles.buttonText}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
               onPress={handleSubmit(onSubmit)}>
-              <Text style={styles.buttonText}>Add todo</Text>
+              <Text style={styles.buttonText}>
+                {modalState ? 'Add changes' : 'Add todo'}
+              </Text>
             </TouchableOpacity>
           </View>
+          {formState.errors.description?.message}
         </View>
       </View>
     </Modal>
@@ -89,7 +121,8 @@ const styles = StyleSheet.create({
   },
   buttonGroup: {
     flexDirection: 'row',
-    marginTop: 'auto',
+    marginTop: 20,
+    zIndex: -1000,
   },
   centeredView: {
     flex: 1,
@@ -102,7 +135,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 35,
     width: '90%',
-    height: '80%',
+    // height: '80%',
     flexDirection: 'column',
     alignItems: 'center',
     shadowColor: '#000',
