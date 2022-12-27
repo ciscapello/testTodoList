@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     color: '#dd0097',
   },
   name: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#acacac',
     marginLeft: 'auto',
   },

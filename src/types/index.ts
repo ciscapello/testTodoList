@@ -5,3 +5,11 @@ export interface User {
   email: string;
   avatar?: string;
 }
+
+export interface Todo {
+  id: number;
+  title: string;
+  description: string;
+  status: 'open' | 'inProgress' | 'closed';
+  priority: '1' | '2' | '3';
+}
