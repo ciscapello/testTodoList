@@ -26,9 +26,13 @@ export const todosSlice = createSlice({
       const index = state.todos.findIndex(elem => elem.id === id);
       state.todos[index] = action.payload;
     },
+    deleteTodo: (state, action) => {
+      state.todos = state.todos.filter(elem => elem.id !== action.payload);
+    },
   },
 });
 
-export const { addTodo, setModalState, updateTodo } = todosSlice.actions;
+export const { addTodo, setModalState, updateTodo, deleteTodo } =
+  todosSlice.actions;
 
 export default todosSlice;

@@ -4,7 +4,7 @@ import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import CustomInput from '../customInput/customInput';
 import CustomPicker from '../customPicker/customPicker';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { addTodo, setModalState, updateTodo } from '../../store';
+import { addTodo, deleteTodo, setModalState, updateTodo } from '../../store';
 import { selectModalState } from '../../store';
 // import CustomPicker from '../customPicker/customPicker';
 
@@ -59,6 +59,13 @@ export default function TodoModal({
     dispatch(setModalState(null));
   };
 
+  const deleteHandler = () => {
+    reset();
+    setModalIsShow(false);
+    dispatch(setModalState(null));
+    dispatch(deleteTodo(modalState!.id));
+  };
+
   return (
     <Modal
       animationType="fade"
@@ -67,6 +74,13 @@ export default function TodoModal({
       statusBarTranslucent={true}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
+          {modalState ? (
+            <TouchableOpacity
+              style={styles.deleteButton}
+              onPress={deleteHandler}>
+              <Text style={styles.buttonText}>Delete todo</Text>
+            </TouchableOpacity>
+          ) : null}
           <CustomInput
             control={control}
             name={'title'}
