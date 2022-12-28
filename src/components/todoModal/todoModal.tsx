@@ -1,13 +1,6 @@
 import React, { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import {
-  Alert,
-  Modal,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import CustomInput from '../customInput/customInput';
 import CustomPicker from '../customPicker/customPicker';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -20,7 +13,7 @@ import {
   updateTodo,
 } from '../../store';
 import { selectModalState } from '../../store';
-import { Colors } from '../../utils';
+import { Colors, showAlert } from '../../utils';
 
 interface TodoModalProps {
   modalIsShow: boolean;
@@ -44,33 +37,18 @@ export default function TodoModal({
     useForm<FormValues>();
   const fieldValues = useAppSelector(selectFieldValues);
   let defaultValues = fieldValues ? fieldValues : modalState;
-  console.log('defaultValues', defaultValues);
-
-  const showAlert = () =>
-    Alert.alert(
-      'У вас осталось несохраненное дело',
-      'Желаете ли вы продолжить заполнение задачи или начать с начала?',
-      [
-        {
-          text: 'Начать сначала',
-          onPress: () => dispatch(resetFieldValues()),
-          style: 'destructive',
-        },
-        {
-          text: 'Продолжить',
-          onPress: () => {
-            dispatch(setModalState(defaultValues));
-            dispatch(setModalState(null));
-            dispatch(resetFieldValues());
-          },
-          style: 'default',
-        },
-      ],
-    );
 
   if (defaultValues && modalIsShow && !formState.isDirty) {
     setTimeout(() => {
-      showAlert();
+      showAlert(
+        () => {
+          dispatch(resetFieldValues());
+        },
+        () => {
+          dispatch(setModalState(defaultValues));
+          dispatch(setModalState(null));
+        },
+      );
     }, 300);
   }
 
@@ -84,7 +62,6 @@ export default function TodoModal({
   }, [modalState, setValue]);
 
   const onSubmit: SubmitHandler<FormValues> = data => {
-    console.log('data', data);
     if (!modalState) {
       const newData = { ...data, id: Date.now() };
       dispatch(addTodo(newData));

@@ -22,7 +22,6 @@ export default function CustomInput({
   const modalState = useAppSelector(selectModalState);
   const changeHandler = val => {
     if (!modalState) {
-      console.log(val);
       dispatch(setFieldValues({ name, val }));
     }
   };

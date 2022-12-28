@@ -34,7 +34,6 @@ export const todosSlice = createSlice({
     },
     setFieldValues: (state, action) => {
       const { name, val } = action.payload;
-      console.log(action.payload);
       const obj = { ...state.fieldValues };
       state.fieldValues = { ...obj, [name]: val } as Todo;
     },
