@@ -3,6 +3,7 @@ import { UsersScreen, TodosScreen } from '../screens';
 import { StyleSheet, View } from 'react-native';
 import { Todos, Users } from '../shared/assets/svgs';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Colors } from '../utils';
 
 const Tab = createBottomTabNavigator();
 
@@ -23,6 +24,7 @@ export default function BottomTabNavigation() {
             </View>
           ),
           tabBarIconStyle: { alignSelf: 'center', flex: 1 },
+          tabBarActiveTintColor: Colors.IGUANA_GREEN,
           headerTitleAlign: 'center',
         }}
       />
@@ -39,6 +41,7 @@ export default function BottomTabNavigation() {
               />
             </View>
           ),
+          tabBarActiveTintColor: Colors.IGUANA_GREEN,
           headerTitleAlign: 'center',
         }}
       />

@@ -4,7 +4,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import DropDownPicker, { ValueType } from 'react-native-dropdown-picker';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { selectModalState, setFieldValues } from '../../store';
-import { priorityValues, statusValues } from '../../utils';
+import { Colors, priorityValues, statusValues } from '../../utils';
 import { FormValues } from '../todoModal/todoModal';
 
 interface CustomPickerProps {
@@ -70,6 +70,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: 5,
     fontSize: 12,
-    color: '#8f8f8f',
+    color: Colors.PHILIPPINE_GRAY,
   },
 });

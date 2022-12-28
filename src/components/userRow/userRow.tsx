@@ -2,6 +2,7 @@ import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { Person } from '../../shared/assets/svgs';
 import { User } from '../../types';
+import { Colors } from '../../utils';
 
 interface UserRowProps {
   user: User;
@@ -38,17 +39,17 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#dd0097',
+    color: Colors.FASHION_FUCHSIA,
   },
   name: {
     fontSize: 12,
-    color: '#acacac',
+    color: Colors.PHILIPPINE_GRAY,
     marginLeft: 'auto',
   },
   avatar: {
     borderRadius: 50,
     marginRight: 10,
-    backgroundColor: '#70b172',
+    backgroundColor: Colors.IGUANA_GREEN,
     width: 50,
     height: 50,
     alignItems: 'center',

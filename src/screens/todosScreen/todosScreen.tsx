@@ -10,6 +10,7 @@ import { TodoModal } from '../../components';
 import TodoRow from '../../components/todoRow/todoRow';
 import { useAppSelector } from '../../hooks';
 import { selectTodos } from '../../store';
+import { Colors } from '../../utils';
 
 export default function TodosScreen() {
   const [modalIsShow, setModalIsShow] = useState(false);
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
     width: '90%',
     height: 60,
     marginVertical: 10,
-    backgroundColor: '#70b172',
+    backgroundColor: Colors.IGUANA_GREEN,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',

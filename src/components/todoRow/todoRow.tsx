@@ -4,6 +4,7 @@ import { Todo } from '../../types';
 import { todoPrioritySwitcher, todoStatusSwitcher } from '../../utils';
 import { useAppDispatch } from '../../hooks';
 import { setModalState } from '../../store/todos/todosSlice';
+import { Colors } from '../../utils';
 
 interface TodoRowProps {
   todo: Todo;
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
   wrapper: {
     marginVertical: 15,
     marginHorizontal: 15,
-    borderBottomColor: '#8e8e8e',
+    borderBottomColor: Colors.PHILIPPINE_GRAY,
     borderBottomWidth: 1,
     borderBottomStyle: 'solid',
     paddingLeft: 15,
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
   status: {
     flex: 1,
     fontSize: 12,
-    color: '#838383',
+    color: Colors.PHILIPPINE_GRAY,
   },
   priority: {
     width: 25,

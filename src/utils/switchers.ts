@@ -1,11 +1,13 @@
+import { Colors } from './colors';
+
 export const todoPrioritySwitcher = (priority: string) => {
   switch (priority) {
     case '1':
-      return '#389c47';
+      return Colors.MAY_GREEN;
     case '2':
-      return '#bcd41d';
+      return Colors.ACID_GREEN;
     case '3':
-      return '#a81900';
+      return Colors.RUFOUS;
   }
 };
 

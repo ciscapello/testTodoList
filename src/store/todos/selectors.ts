@@ -1,7 +1,9 @@
 import { RootState } from '../store';
 
 export const selectTodos = (state: RootState) => {
-  return state.todos.todos;
+  return state.todos.todos
+    .slice()
+    .sort((a, b) => Number(b.priority) - Number(a.priority));
 };
 
 export const selectModalState = (state: RootState) => {

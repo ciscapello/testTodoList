@@ -20,6 +20,7 @@ import {
   updateTodo,
 } from '../../store';
 import { selectModalState } from '../../store';
+import { Colors } from '../../utils';
 
 interface TodoModalProps {
   modalIsShow: boolean;
@@ -176,7 +177,7 @@ const styles = StyleSheet.create({
   wrapper: { flexGrow: 1 },
   title: {
     fontSize: 24,
-    color: '#919191',
+    color: Colors.PHILIPPINE_GRAY,
     fontWeight: '700',
   },
   pickerBox: {
@@ -212,7 +213,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
-    backgroundColor: '#70b172',
+    backgroundColor: Colors.IGUANA_GREEN,
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
@@ -221,7 +222,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   buttonOpen: {
-    backgroundColor: '#5ecdfd',
+    backgroundColor: Colors.MAYA_BLUE,
   },
   buttonText: {
     color: 'white',
