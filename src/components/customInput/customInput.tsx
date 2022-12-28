@@ -1,6 +1,8 @@
 import React from 'react';
 import { Control, Controller } from 'react-hook-form';
 import { StyleSheet, TextInput } from 'react-native';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { selectModalState, setFieldValues } from '../../store';
 import { FormValues } from '../todoModal/todoModal';
 
 interface CustomInputProps {
@@ -16,6 +18,14 @@ export default function CustomInput({
   placeholder,
   defaultValue,
 }: CustomInputProps) {
+  const dispatch = useAppDispatch();
+  const modalState = useAppSelector(selectModalState);
+  const changeHandler = val => {
+    if (!modalState) {
+      console.log(val);
+      dispatch(setFieldValues({ name, val }));
+    }
+  };
   const height = name === 'title' ? 40 : 200;
   return (
     <Controller
@@ -24,7 +34,10 @@ export default function CustomInput({
         <TextInput
           style={[styles.input, { height }]}
           placeholder={placeholder}
-          onChangeText={val => onChange(val)}
+          onChangeText={val => {
+            onChange(val);
+            changeHandler(val);
+          }}
           value={value}
           autoCapitalize="none"
           multiline={name === 'title' ? false : true}

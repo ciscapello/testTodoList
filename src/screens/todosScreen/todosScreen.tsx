@@ -9,11 +9,9 @@ import {
 import { TodoModal } from '../../components';
 import TodoRow from '../../components/todoRow/todoRow';
 import { useAppSelector } from '../../hooks';
-import { selectTodos } from '../../store/todos/selectors';
+import { selectTodos } from '../../store';
 
 export default function TodosScreen() {
-  // const modalState = useAppSelector(selectModalState);
-
   const [modalIsShow, setModalIsShow] = useState(false);
   const todos = useAppSelector(selectTodos);
 
@@ -25,7 +23,7 @@ export default function TodosScreen() {
           onPress={() => setModalIsShow(true)}>
           <Text style={styles.buttonText}>ADD NEW TODO</Text>
         </TouchableOpacity>
-        <ScrollView>
+        <ScrollView style={styles.wrapper}>
           {todos.map(elem => (
             <TodoRow todo={elem} key={elem.id} />
           ))}
@@ -37,6 +35,9 @@ export default function TodosScreen() {
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    marginBottom: 70,
+  },
   button: {
     width: '90%',
     height: 60,

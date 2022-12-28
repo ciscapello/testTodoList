@@ -7,3 +7,7 @@ export const selectTodos = (state: RootState) => {
 export const selectModalState = (state: RootState) => {
   return state.todos.modalState;
 };
+
+export const selectFieldValues = (state: RootState) => {
+  return state.todos.fieldValues;
+};

@@ -11,6 +11,7 @@
     "svg:transform": "./node_modules/@svgr/cli/bin/svgr --native --ignore-existing --typescript -d src/shared/assets/svgs/ src/shared/assets/svgs/origin"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.17.11",
     "@react-navigation/bottom-tabs": "^6.5.2",
     "@react-navigation/material-bottom-tabs": "^6.2.10",
     "@react-navigation/native": "^6.1.1",
@@ -30,7 +31,8 @@
     "react-native-select-dropdown": "^3.1.0",
     "react-native-svg": "^13.6.0",
     "react-native-vector-icons": "^9.2.0",
-    "react-redux": "^8.0.5"
+    "react-redux": "^8.0.5",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

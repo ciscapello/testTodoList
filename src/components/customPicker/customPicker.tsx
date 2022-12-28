@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
 import { StyleSheet, View, Text } from 'react-native';
 import DropDownPicker, { ValueType } from 'react-native-dropdown-picker';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { selectModalState, setFieldValues } from '../../store';
 import { priorityValues, statusValues } from '../../utils';
 import { FormValues } from '../todoModal/todoModal';
 
@@ -19,6 +21,14 @@ export default function CustomPicker({
   defaultValue,
 }: CustomPickerProps) {
   const [open, setOpen] = useState(false);
+  const dispatch = useAppDispatch();
+  const modalState = useAppSelector(selectModalState);
+
+  const changeHandler = val => {
+    if (!modalState) {
+      dispatch(setFieldValues({ name, val }));
+    }
+  };
 
   return (
     <View style={styles.dropdownContainer}>
@@ -32,7 +42,10 @@ export default function CustomPicker({
             items={name === 'status' ? statusValues : priorityValues}
             setOpen={setOpen}
             setValue={item => console.log(item)}
-            onSelectItem={item => onChange(item.value)}
+            onSelectItem={item => {
+              onChange(item.value);
+              changeHandler(item.value);
+            }}
             containerStyle={styles.containerStyle}
           />
         )}

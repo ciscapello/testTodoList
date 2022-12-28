@@ -1,12 +1,25 @@
 import React, { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Alert,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import CustomInput from '../customInput/customInput';
 import CustomPicker from '../customPicker/customPicker';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { addTodo, deleteTodo, setModalState, updateTodo } from '../../store';
+import {
+  addTodo,
+  deleteTodo,
+  resetFieldValues,
+  selectFieldValues,
+  setModalState,
+  updateTodo,
+} from '../../store';
 import { selectModalState } from '../../store';
-// import CustomPicker from '../customPicker/customPicker';
 
 interface TodoModalProps {
   modalIsShow: boolean;
@@ -24,9 +37,41 @@ export default function TodoModal({
   modalIsShow,
   setModalIsShow,
 }: TodoModalProps) {
+  const dispatch = useAppDispatch();
   const modalState = useAppSelector(selectModalState);
   const { control, handleSubmit, reset, formState, setValue } =
     useForm<FormValues>();
+  const fieldValues = useAppSelector(selectFieldValues);
+  let defaultValues = fieldValues ? fieldValues : modalState;
+  console.log('defaultValues', defaultValues);
+
+  const showAlert = () =>
+    Alert.alert(
+      'У вас осталось несохраненное дело',
+      'Желаете ли вы продолжить заполнение задачи или начать с начала?',
+      [
+        {
+          text: 'Начать сначала',
+          onPress: () => dispatch(resetFieldValues()),
+          style: 'destructive',
+        },
+        {
+          text: 'Продолжить',
+          onPress: () => {
+            dispatch(setModalState(defaultValues));
+            dispatch(setModalState(null));
+            dispatch(resetFieldValues());
+          },
+          style: 'default',
+        },
+      ],
+    );
+
+  if (defaultValues && modalIsShow && !formState.isDirty) {
+    setTimeout(() => {
+      showAlert();
+    }, 300);
+  }
 
   useEffect(() => {
     if (modalState) {
@@ -36,9 +81,6 @@ export default function TodoModal({
       setValue('priority', modalState.priority);
     }
   }, [modalState, setValue]);
-
-  const dispatch = useAppDispatch();
-  console.log(formState.errors);
 
   const onSubmit: SubmitHandler<FormValues> = data => {
     console.log('data', data);
@@ -80,7 +122,9 @@ export default function TodoModal({
               onPress={deleteHandler}>
               <Text style={styles.buttonText}>Delete todo</Text>
             </TouchableOpacity>
-          ) : null}
+          ) : (
+            <Text style={styles.title}>New todo</Text>
+          )}
           <CustomInput
             control={control}
             name={'title'}
@@ -129,6 +173,12 @@ export default function TodoModal({
 }
 
 const styles = StyleSheet.create({
+  wrapper: { flexGrow: 1 },
+  title: {
+    fontSize: 24,
+    color: '#919191',
+    fontWeight: '700',
+  },
   pickerBox: {
     flexDirection: 'row',
     justifyContent: 'space-around',
