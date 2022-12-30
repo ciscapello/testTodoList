@@ -33,6 +33,7 @@ export default function CustomInput({
         <TextInput
           style={[styles.input, { height }]}
           placeholder={placeholder}
+          blurOnSubmit={true}
           onChangeText={val => {
             onChange(val);
             changeHandler(val);
